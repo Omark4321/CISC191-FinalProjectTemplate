@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class CustomerRequest {
     private Integer id;
 
-    //test
+    //test2
 
     @JsonIgnore
     private static final ObjectMapper objectMapper = new ObjectMapper();
