@@ -39,7 +39,9 @@ public class GameBoardButton extends Button {
         isGuessed = true;
         setDisabled(true);
     }
-
+    public void setShowFalse(){
+        isGuessed=false;
+    }
     public Object getRow() {
         return null;
     }

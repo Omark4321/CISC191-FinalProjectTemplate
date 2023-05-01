@@ -3,6 +3,7 @@ package edu.sdccd.cisc191.template;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,7 +19,7 @@ public class ViewGameBoard extends Application
     private GameBoardLabel fishRemaining;
     private GameBoardLabel guessesRemaining;
     private GameBoardLabel message;
-
+    private Button resetBoard;
     public static void main(String[] args)
     {
         // TODO: launch the app ✔
@@ -40,6 +41,31 @@ public class ViewGameBoard extends Application
             message.setText("Find the fish!");
         }
     }
+    public void revealFish(HBox labelContainer, Stage stage){
+
+        VBox mainContainer = new VBox(labelContainer);
+        VBox buttonContainer = new VBox();
+        for(int row=0;row<6;row++){
+            HBox buttonRow = new HBox();
+            for(int col=0;col<6;col++){
+                GameBoardButton button = new GameBoardButton(row, col, controller.modelGameBoard.fishAt(row,col));
+                controller.makeGuess(row, col);
+                if(!controller.isGameOver()) {
+                    updateHeader();
+                }
+                buttonRow.getChildren().add(button);
+            }
+            buttonContainer.getChildren().add(buttonRow);
+        }
+        mainContainer.getChildren().add(buttonContainer);
+
+        BorderPane root = new BorderPane();
+        root.setTop(mainContainer);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Gone Fishing");
+        stage.show();
+    }
     @Override
     public void start(Stage stage) throws Exception {
         controller = new ControllerGameBoard();
@@ -49,10 +75,10 @@ public class ViewGameBoard extends Application
         fishRemaining = new GameBoardLabel();
         guessesRemaining = new GameBoardLabel();
         message = new GameBoardLabel();
-
+        Button revealButton = new Button("play automatically");
         // TODO display game there are infinite ways to do this, I used BorderPane with HBox and VBox ✓
         BorderPane root = new BorderPane();
-        HBox labelContainer = new HBox(fishRemaining, guessesRemaining, message);
+        HBox labelContainer = new HBox(fishRemaining, guessesRemaining, message, revealButton);
 
         VBox buttonContainer = new VBox();
         buttonContainer.setSpacing(8);
@@ -88,7 +114,7 @@ public class ViewGameBoard extends Application
 
         mainContainer.getChildren().add(buttonContainer);
 
-
+        revealButton.setOnAction(e-> revealFish(labelContainer, stage));
         root.setTop(mainContainer);
         Scene scene = new Scene(root);
         stage.setScene(scene);
