@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class CustomerRequest {
     private Integer id;
 
+    //test2
+
     @JsonIgnore
     private static final ObjectMapper objectMapper = new ObjectMapper();
     public static String toJSON(CustomerRequest customer) throws Exception {
